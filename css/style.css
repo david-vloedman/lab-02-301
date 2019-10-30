@@ -1,0 +1,15 @@
+section{
+  border: 2px solid;
+  border-radius: 5%;
+  background-color: rgb(245, 214, 218);
+}
+body{
+  background-color: rgb(216, 239, 247);
+}
+h1, h2{
+  font-family: 'Amatic SC', cursive;
+}
+
+p{
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}

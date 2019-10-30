@@ -1,0 +1,28 @@
+img{
+  width: 200px;
+  height: auto;
+}
+section{
+  height: 25%;
+  width: 25%;
+  justify-content: center;
+  text-align: center;
+  margin: 20px;
+}
+.flex-container{
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap; 
+  align-items: baseline;
+  align-self: auto;
+}
+
+header{
+ text-align: center;
+}
+
+#photo-template{
+  display: none;
+}
+
+
