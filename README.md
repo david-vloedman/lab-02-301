@@ -10,9 +10,9 @@ Estimate of time needed to complete: 30 minutes
 
 Start time: 8:20 AM 
 
-Finish time:
+Finish time: 10:45 AM
 
-Actual time needed to complete:
+Actual time needed to complete: 145 minutes
 
 ## Feature 2
 
@@ -20,7 +20,7 @@ Name and number of feature: #2 Filter images
 
 Estimate of time needed to complete: 45 minutes
 
-Start time:
+Start time: 10:47 AM
 
 Finish time:
 
