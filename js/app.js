@@ -20,7 +20,8 @@ Img.prototype.render = function(){
   $imgClone.find('p').text(this.description);
   $imgClone.removeClass('clone');
   $imgClone.attr('class', this.keyword);
-  $imgClone.appendTo('main');
+  $imgClone.attr('id', this.keyword);
+  $imgClone.appendTo('.flex-container');
 };
 
 Img.readJSON = () => {

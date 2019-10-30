@@ -12,7 +12,7 @@ section{
 .flex-container{
   display: flex;
   justify-content: center;
-  flex-wrap: wrap;
+  flex-wrap: wrap; 
   align-items: baseline;
   align-self: auto;
 }
