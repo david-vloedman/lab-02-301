@@ -13,19 +13,23 @@ Img.allImgs = [];
 
 
 Img.prototype.render = function(){
-  let imgClone = $('#photo-template').clone();
-  let $imgClone = $(imgClone[0]);
-  $imgClone.find('h2').text(this.title);
-  $imgClone.find('img').attr('src', this.img_url);
-  $imgClone.find('p').text(this.description);
-  $imgClone.removeClass('clone');
-  $imgClone.attr('class', this.keyword);
-  $imgClone.attr('id', this.keyword);
-  $imgClone.appendTo('.flex-container');
+  // let imgClone = $('#photo-template').clone();
+  // let $imgClone = $(imgClone[0]);
+  
+  // $imgClone.find('img').attr('src', this.img_url);
+  
+  // $imgClone.removeClass('clone');
+  // $imgClone.attr('class', this.keyword);
+  // $imgClone.attr('id', this.keyword);
+  // $imgClone.appendTo('.flex-container');
+  let template = $('#photo-template').html();
+  let templateRender = Handlebars.compile(template);
+  return templateRender(this);
+
 };
 
-Img.readJSON = () => {
-  $.get('data/page-1.json')
+Img.readJSON = source => {
+  $.get(source)
     .then(data => {
       data.forEach(img => {
         Img.allImgs.push(new Img(img));
@@ -35,8 +39,9 @@ Img.readJSON = () => {
     .then(Img.populateKeyword);
 };
 
-Img.loadImgs = () => Img.allImgs.forEach(img => img.render());
-
+Img.loadImgs = () => {
+  Img.allImgs.forEach(img => $('.flex-container').append(img.render()));
+};
 
 Img.populateKeyword = () => {
   Img.allImgs.forEach(img => {
@@ -63,7 +68,7 @@ Img.handleSelect = () => {
 };
 
 $(() => {
-  Img.readJSON();
+  Img.readJSON('data/page-1.json');
   $('select').change(Img.handleSelect);
 
 });
