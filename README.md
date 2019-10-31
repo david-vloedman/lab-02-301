@@ -37,3 +37,42 @@ Start time: 12:00 PM
 Finish time: 12:34 PM
 
 Actual time needed to complete: 34 minutes
+
+
+## Feature 4
+
+Name and number of feature: Pagination
+
+Estimate of time needed to complete: 60 minutes
+
+Start time: N/A 
+
+Finish time: N/A
+
+Actual time needed to complete: 80 minutes
+
+
+## Feature 5
+
+Name and number of feature: #5 Style w/ Flexbox
+
+Estimate of time needed to complete: 30 minutes
+
+Start time: N/A
+
+Finish time: N/A
+
+Actual time needed to complete: 20 minutes
+
+
+## Feature 6
+
+Name and number of feature: #6 Sort images
+
+Estimate of time needed to complete: 60 minutes
+
+Start time: 12:45 AM
+
+Finish time: 
+
+Actual time needed to complete: 145 minutes
