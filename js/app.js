@@ -1,52 +1,50 @@
 'using strict';
 
-function Img(img){
+function Img(img, page){
   this.img_url = img.image_url;
   this.title = img.title;
   this.description = img.description;
   this.keyword = img.keyword;
   this.horns = img.horns;
+  this.page = page;
 }
 
 Img.allImgs = [];
 
 
-
 Img.prototype.render = function(){
-  // let imgClone = $('#photo-template').clone();
-  // let $imgClone = $(imgClone[0]);
-  
-  // $imgClone.find('img').attr('src', this.img_url);
-  
-  // $imgClone.removeClass('clone');
-  // $imgClone.attr('class', this.keyword);
-  // $imgClone.attr('id', this.keyword);
-  // $imgClone.appendTo('.flex-container');
   let template = $('#photo-template').html();
   let templateRender = Handlebars.compile(template);
   return templateRender(this);
-
 };
 
-Img.readJSON = source => {
+Img.readJSON = (source, page) => {
   $.get(source)
     .then(data => {
       data.forEach(img => {
-        Img.allImgs.push(new Img(img));
+        Img.allImgs.push(new Img(img, page));
       });
     })
-    .then(Img.loadImgs)
-    .then(Img.populateKeyword);
+    .then(() => Img.loadImgs(page))
+    .then(() => Img.populateKeyword(page));
 };
 
-Img.loadImgs = () => {
-  Img.allImgs.forEach(img => $('.flex-container').append(img.render()));
-};
-
-Img.populateKeyword = () => {
+Img.loadImgs = page => {
   Img.allImgs.forEach(img => {
-    let $option = Img.createOption(img);
-    $option.appendTo('select');
+    if(img.page === page) $('.flex-container').append(img.render());
+  });
+};
+
+  
+
+Img.populateKeyword = page => {
+  
+  
+  Img.allImgs.forEach(img => {
+    if(img.page === page){
+      let $option = Img.createOption(img);
+      $option.appendTo('#filter');
+    }  
   });
 };
 
@@ -61,16 +59,24 @@ Img.hideImages = () => {
   $('section').hide();
 };
 
-Img.handleSelect = () => {
+Img.handleFilter = () => {
   Img.hideImages();
-  let selection = $('select').val();
+  let selection = $('#filter').val();
   $(`.${selection}`).show();
 };
 
-$(() => {
-  Img.readJSON('data/page-1.json');
-  $('select').change(Img.handleSelect);
+Img.handlePage = () => {
+  Img.hideImages();
+  $('#filter').val('default');
+  let page = $('#page').val();
+  $(`.${page}`).show();
+};
 
+$(() => {
+  Img.readJSON('/data/page-1.json', 'page1');
+  Img.readJSON('/data/page-2.json', 'page2');
+  $('#filter').change(Img.handleFilter);
+  $('#page').change(Img.handlePage);
 });
 
 
