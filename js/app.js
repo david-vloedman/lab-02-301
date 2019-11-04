@@ -10,6 +10,7 @@ function Img(img, page){
 }
 
 Img.allImgs = [];
+Img.pageData;
 
 
 Img.prototype.render = function(){
@@ -18,47 +19,48 @@ Img.prototype.render = function(){
   return templateRender(this);
 };
 
-Img.readJSON = (source, page, sort) => {
-  
+Img.readJSON = (source, page) => {
   $.get(source)
     .then(data => {
       data.forEach(img => {
         Img.allImgs.push(new Img(img, page));
       });
     })
-    .then(() => {
-      if(sort === 'horn') {
-        Img.allImgs.sort(Img.sortByHorn);
-        
-      }
-      if(sort === 'title') Img.allImgs.sort(Img.sortByTitle);
-    })
-    .then(() => Img.populateKeyword(page))
-    .then(() => Img.loadImgs(page));
+    .then(() => Img.loadImgs(page))
+    .then(() => Img.getPageData())
+    .then(() => Img.populateKeyword())
+    .then(() => Img.hideImages())
+    .then(() => Img.handlePage())
+    .then(() => Img.determineSort())
+    .then(Img.startListening);
 };
 
-Img.loadImgs = page => {
+Img.loadImgs = (page) => {
+  if(page === undefined) page = 'page1';
   Img.allImgs.forEach(img => {
-    Img.hideImages();
     if(img.page === page) $('.flex-container').append(img.render());
   });
 };
 
+Img.getPageData = () => {
+  Img.pageData = $('section');
+};
 
-
-Img.populateKeyword = page => {
-  Img.allImgs.forEach(img => {
-    if(img.page === page){
-      let $option = Img.createOption(img);
-      $option.appendTo('#filter');
-    }
+Img.populateKeyword = () => {
+  const ids = [];
+  for(let i = 0; i < Img.pageData.length; i++){
+    ids.push(Img.pageData[i].id);
+  }
+  let options = [...new Set(ids)];
+  options.forEach(opt => {
+    $('#filter').append(Img.createOption(opt));
   });
 };
 
 Img.createOption = img => {
   let $option = $('<option></option>');
-  $option.attr('value', img.keyword);
-  $option.text(img.keyword);
+  $option.attr('value', img);
+  $option.text(img);
   return $option;
 };
 
@@ -68,48 +70,54 @@ Img.hideImages = () => {
 
 Img.handleFilter = () => {
   Img.hideImages();
+  let page = $('#page').val();
+  if(page === 'default') page = 'page1';
   let selection = $('#filter').val();
-  $(`.${selection}`).show();
+  $(`.${page}.${selection}`).show();
 };
 
 Img.handlePage = () => {
+  let page;
   Img.hideImages();
   $('#filter').val('default');
   $('#sort').val('default');
-  let page = $('#page').val();
+  $('#page').val() === 'default' ? page = 'page1' : page = $('#page').val();
   $(`.${page}`).show();
 };
 
-Img.handleSort = () => {
-  if($('#sort').val() === 'title') Img.sortByTitle();
-  if($('#sort').val() === 'horns') {
-    const page = $('page').val();
-    let source = page === 'page1' ? '/data/page-1.json' : '/data/page-2.json';
-    Img.readJSON(source, page, 'horn');
-  }
+
+Img.determineSort = () => {
+
+  $('#sort').val() === 'horn' ? Img.sortBy('horns') : Img.sortBy('title');
 };
 
-Img.sortByTitle = (a, b) => {
+
+
+Img.sortBy= type => {
+  let data = Img.allImgs;
+  data.sort(Img[type]);
+  Img.allImgs = data;
+  $('.flex-container').empty();
+  Img.loadImgs();
+};
+
+Img.title= (a, b) => {
   return a.title.localeCompare(b.title);
 };
 
-Img.sortByHorns = (a ,b) => {
+Img.horns = (a ,b) => {
   return a.horns - b.horns;
 };
 
+Img.startListening = () => {
+  $('#filter').change(Img.handleFilter);
+  $('#page').change(Img.handlePage);
+  $('#sort').change(Img.determineSort);
+};
 
 
 $(() => {
-  Img.readJSON('/data/page-1.json', 'page1', 'title');
-  Img.readJSON('/data/page-2.json', 'page2', 'title');
-  $('#filter').change(Img.handleFilter);
-  $('#page').change(Img.handlePage);
-  $('#sort').change(Img.handleSort);
+  Img.readJSON('/data/page-1.json', 'page1');
+  Img.readJSON('/data/page-2.json', 'page2');
 });
-
-
-
-
-
-
 
