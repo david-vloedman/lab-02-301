@@ -31,10 +31,12 @@ Img.readJSON = (source, page) => {
     .then(() => Img.populateKeyword())
     .then(() => Img.hideImages())
     .then(() => Img.handlePage())
+    .then(() => Img.determineSort())
     .then(Img.startListening);
 };
 
 Img.loadImgs = (page) => {
+  if(page === undefined) page = 'page1';
   Img.allImgs.forEach(img => {
     if(img.page === page) $('.flex-container').append(img.render());
   });
@@ -80,17 +82,16 @@ Img.handlePage = () => {
   $('#filter').val('default');
   $('#sort').val('default');
   $('#page').val() === 'default' ? page = 'page1' : page = $('#page').val();
-  $('#page').val();
   $(`.${page}`).show();
 };
 
-Img.handleSort = () => {
-  $('#sort').val() !== 'default' ? Img.determineSort() : Img.sortByTitle();
-};
 
 Img.determineSort = () => {
+
   $('#sort').val() === 'horn' ? Img.sortBy('horns') : Img.sortBy('title');
 };
+
+
 
 Img.sortBy= type => {
   let data = Img.allImgs;
@@ -111,7 +112,7 @@ Img.horns = (a ,b) => {
 Img.startListening = () => {
   $('#filter').change(Img.handleFilter);
   $('#page').change(Img.handlePage);
-  $('#sort').change(Img.handleSort);
+  $('#sort').change(Img.determineSort);
 };
 
 
