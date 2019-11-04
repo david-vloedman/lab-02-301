@@ -75,7 +75,7 @@ Img.handleFilter = () => {
   let selection = $('#filter').val();
   $(`.${page}.${selection}`).show();
 };
-
+ 
 Img.handlePage = () => {
   let page;
   Img.hideImages();
