@@ -26,7 +26,7 @@ Img.readJSON = (source, page) => {
         Img.allImgs.push(new Img(img, page));
       });
     })
-    .then(() => Img.loadImgs(page))
+    .then(() => Img.loadImgs())
     .then(() => Img.getPageData())
     .then(() => Img.populateKeyword())
     .then(() => Img.hideImages())
@@ -35,10 +35,9 @@ Img.readJSON = (source, page) => {
     .then(Img.startListening);
 };
 
-Img.loadImgs = (page) => {
-  if(page === undefined) page = 'page1';
+Img.loadImgs = () => {
   Img.allImgs.forEach(img => {
-    if(img.page === page) $('.flex-container').append(img.render());
+    $('.flex-container').append(img.render());
   });
 };
 
@@ -80,7 +79,7 @@ Img.handlePage = () => {
   let page;
   Img.hideImages();
   $('#filter').val('default');
-  $('#sort').val('default');
+  $('#sort').val('default');  
   $('#page').val() === 'default' ? page = 'page1' : page = $('#page').val();
   $(`.${page}`).show();
 };
