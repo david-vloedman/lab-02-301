@@ -7,6 +7,14 @@
     <link href="https://fonts.googleapis.com/css?family=Amatic+SC&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/base.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script id="photo-template" type="text/x-handlebars-template">
+      <section id="{{keyword}}" class="{{page}} {{keyword}}">
+      <h2>{{title}}</h2>
+      <img src="{{img_url}}" alt=""></img>
+      <p>Number of horns {{horns}}</p>
+      <p>{{description}}</p>
+      </section>
+    </script>
     <script src="js/app.js"></script>
   </head>
   <body>
@@ -15,26 +23,20 @@
       <select id="filter">
         <option value="default">Filter by Keyword</option>        
       </select>
-      <select id="page">        
+      <select id="page">    
+        <option value="default">Select page...</option>    
         <option value="page1">Page 1</option>
         <option value="page2">Page 2</option>
       </select>
       <select id="sort">
         <option value="default">Sort by...</option>
         <option value="title">Title</option>
-        <option value="horns"># of horns</option>
+        <option value="horn"># of horns</option>
       </select>
     </header>
     <main>
       <div class="flex-container">
-      <script id="photo-template" type="text/x-handlebars-template">
-        <section id="{{keyword}}" class="{{page}} {{keyword}}">
-        <h2>{{title}}</h2>
-        <img src="{{img_url}}" alt=""></img>
-        <p>Number of horns {{horns}}</p>
-        <p>{{description}}</p>
-        </section>
-      </script>
+     
     </div>
     </main>
     <footer>
